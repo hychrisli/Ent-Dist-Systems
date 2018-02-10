@@ -10,7 +10,7 @@ let a = [];
 let b = ['door', 'desk'];
 const assert = require('assert');
 
-describe('arrays', function(){
+describe('Arrays', function(){
 
     it ('Should be array', function(){
         assert.equal(a.constructor === Array, true);
