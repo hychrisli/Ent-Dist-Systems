@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Local Storage</title>
+</head>
+<body>
+
+<form>
+    <input id="input" type="text" name="notes">
+    <button onclick="record()">Record</button>
+</form>
+
+<div id="records"></div>
+
+<script>
+    let res = [];
+    let idx = 0;
+
+    if (typeof(localStorage) === "undefined") {
+        document.getElementById("records").innerHTML = "Local storage NOT supported";
+    }
+    else {
+        for (; idx < localStorage.length; idx++) {
+            res.push(localStorage.getItem(idx.toString()));
+        }
+        document.getElementById("records").innerText = res.join("\n");
+    }
+
+    function record() {
+        if (typeof(localStorage) !== "undefined") {
+            localStorage.setItem(idx.toString(), document.getElementById("input").value);
+            res.push(localStorage.getItem(idx.toString()));
+            idx += 1;
+        }
+    }
+
+</script>
+
+</body>
+</html>
