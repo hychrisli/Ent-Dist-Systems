@@ -6,5 +6,27 @@
 </head>
 <body>
 
+<form>
+    Username:<br>
+    <input type="text" name="username" placeholder="Chris" required autofocus><br>
+    Age:<br>
+    <input type="number" name="age" placeholder="18" min="18" max="120"><br>
+    Email:<br>
+    <input type="email" name="email" placeholder="chris@no-reply.com"><br>
+    Zip Code:<br>
+    <input type="text" name="zipcode" placeholder="12345" pattern="[1-9]{5}"><br>
+    Your Color:<br>
+    <input type="color" name="color"><br>
+    <hr>
+    Which do you prefer?<br>
+    <input type="radio" name="pets" value="dog" checked> Dog<br>
+    <input type="radio" name="pets" value="cat"> Cat<br>
+    <input type="radio" name="pets" value="guinea pig"> Guinea Pig<br>
+
+    <hr>
+    <input type="submit" value="Save">
+    <input type="reset" value="Clear"><br>
+</form>
+
 </body>
 </html>
