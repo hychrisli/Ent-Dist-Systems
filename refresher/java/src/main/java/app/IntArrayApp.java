@@ -16,7 +16,7 @@ public class IntArrayApp {
         return b;
     }
 
-    public static int[] removeByIdx(int[] a, int i){
+    public static int[] removeLast(int[] a){
         if (a.length == 0) return a;
         return Arrays.copyOf(a, a.length - 1);
     }
