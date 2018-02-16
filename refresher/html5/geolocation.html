@@ -5,6 +5,32 @@
     <title>Geolocation</title>
 </head>
 <body>
+<h3> Get Your Geolocation! </h3>
+<p> 1. Click the location button </p>
+<p> 2. Allow browser to access your location</p>
+<input type="button" value="Locate" onclick="getGeo()">
+<p id="location"></p>
 
+<script>
+
+    let loc = document.getElementById("location");
+
+    function getGeo() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showLoc, showErr)
+        } else {
+            loc.innerText = "Your browser doesn't support Geolocation";
+        }
+    }
+
+    function showLoc(pos) {
+        loc.innerHTML = "Lat: " + pos.coords.latitude + "<br>Long:" + pos.coords.longitude;
+    }
+
+    function showErr(err) {
+        loc.innerText = err.message;
+    }
+
+</script>
 </body>
 </html>
