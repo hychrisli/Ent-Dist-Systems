@@ -42,5 +42,4 @@ public class InterfaceTest {
         Assert.assertEquals(3, docList.get(2).getLen());
     }
 
-
 }

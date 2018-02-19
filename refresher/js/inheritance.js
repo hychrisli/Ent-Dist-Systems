@@ -45,9 +45,9 @@ describe('Inheritance', function(){
 
     it('Should be chicken name: Coco', function(){
         assert.equal(chicken.getName(), 'Coco');
-    })
+    });
 
     it('Coco Chicken should have 2 legs', function(){
         assert.equal(chicken.getLegs(), 2);
     })
-})
+});

@@ -22,4 +22,4 @@ describe('Errors', function(){
         chai.expect(error).to.throw(AppError);
     });
 
-})
+});

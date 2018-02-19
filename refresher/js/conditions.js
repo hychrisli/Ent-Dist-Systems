@@ -27,9 +27,9 @@ describe('Conditions', function(){
 
     it('Age 25 should be Adult', function(){
         assert.equal(group(25), 'Adult');
-    })
+    });
 
     it('Age 100 should be Senior', function(){
         assert.equal(group(100), 'Senior')
     })
-})
+});

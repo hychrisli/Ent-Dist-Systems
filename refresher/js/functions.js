@@ -36,9 +36,9 @@ describe('Funcs', function(){
 
     it ( 'Should return 0 when counter1.get() returns 2', function(){
         assert.equal(counter1.get(), 2);
-    })
+    });
 
     it ( 'Should return 0 when counter2 returns 3', function(){
         assert.equal(counter2, 3);
     })
-})
+});

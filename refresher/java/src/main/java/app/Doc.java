@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+// --- Doc Class --
 public class Doc implements Iterable<String>, Comparable<Doc> {
 
     private List<String> notes ;
