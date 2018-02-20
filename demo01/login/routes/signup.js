@@ -3,7 +3,7 @@ var router = express.Router();
 var data = require('./data');
 var cred = data.cred;
 
-router.post('/', function(req, res){
+router.post('/result', function(req, res){
 
     const username = req.body.username;
     const password = req.body.password;
