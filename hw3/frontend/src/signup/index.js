@@ -1,14 +1,47 @@
 import React, {Component} from 'react';
 import {reduxForm, Field} from 'redux-form'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
+import PropTypes from 'prop-types'
+
+import Messages from '../notifications/messages'
+import Errors from '../notifications/errors'
 
 import {signupRequest} from './actions'
 
 class Signup extends Component{
+
+  static propTypes = {
+    handleSubmit: PropTypes.func,
+    signupRquest: PropTypes.func,
+    signup: PropTypes.shape({
+      requesting: PropTypes.bool,
+      successful: PropTypes.bool,
+      messages: PropTypes.array,
+      errors: PropTypes.array,
+    })
+  };
+
+  submit = (values) => {
+    this.props.signupRequest(values)
+  };
+
+
   render(){
+
+    const {
+      handleSubmit,
+      signup: {
+        requesting,
+        successful,
+        messages,
+        errors,
+      },
+    } = this.props;
+
     return (
       <div className={"signup"}>
-        <form className="widget-form">
+        <form className="widget-form" onSubmit={handleSubmit(this.submit)}>
           <h1>Signup</h1>
           <label htmlFor={"email"}>Email</label>
           <Field
@@ -29,6 +62,22 @@ class Signup extends Component{
           />
           <button type="submit">SIGNUP</button>
         </form>
+        <div className={"auth-messages"}>
+          {!requesting && !!errors.length && (
+            <Errors message="Failure to signup due to:" errors={errors} />
+          )}
+          {!requesting && !!messages.length && (
+            <Messages messages={messages} />
+          )}
+          {!requesting && successful && (
+            <div>
+              Signup Successful! <Link to="/login">Click here to Login »</Link>
+            </div>
+          )}
+          {!requesting && !successful && (
+            <Link to="/login">Already a Widgeter? Login Here »</Link>
+          )}
+        </div>
       </div>
     )
   }
