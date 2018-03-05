@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import {applyMiddleware, createStore, compose} from 'redux';
 import {Provider} from 'react-redux';
 import createSageMiddleware from 'redux-saga'
-import {Route, BrowserRouter, Switch} from 'react-router-dom';
+import {Route, Router, Switch} from 'react-router-dom';
 
 import App from './App';
 import Login from './login';
 import Signup from './signup';
 import Widgets from './widgets';
+import history from './history';
 import './index.css';
 
 import IndexReducer from './index-reducer';
@@ -35,7 +36,7 @@ sagaMiddleware.run(IndexSagas);
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <Router history={history}>
       <App>
         <Switch>
           <Route path={"/login"} component={Login}/>
@@ -43,7 +44,7 @@ ReactDOM.render(
           <Route path={"/widgets"} component={Widgets}/>
         </Switch>
       </App>
-    </BrowserRouter>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );
