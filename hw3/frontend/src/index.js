@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import {applyMiddleware, createStore, compose} from 'redux';
 import {Provider} from 'react-redux';
 import createSageMiddleware from 'redux-saga'
-import {Route, Router, Switch} from 'react-router-dom';
+import {Route, Router, Switch, Link} from 'react-router-dom';
 
 import App from './App';
 import Login from './login';
@@ -14,6 +14,11 @@ import './index.css';
 
 import IndexReducer from './index-reducer';
 import IndexSagas from './index-saga';
+
+import {
+  checkIndexAuthorization,
+  checkWidgetAuthorization,
+} from './lib/check-auth'
 
 //Set up middleware
 const sagaMiddleware = createSageMiddleware();
@@ -39,9 +44,10 @@ ReactDOM.render(
     <Router history={history}>
       <App>
         <Switch>
+          <Route exact path={"/"} render={checkIndexAuthorization(store)}/>
           <Route path={"/login"} component={Login}/>
           <Route path={"/signup"} component={Signup}/>
-          <Route path={"/widgets"} component={Widgets}/>
+          <Route path={"/widgets"} render={checkWidgetAuthorization(store)} component={Widgets}/>
         </Switch>
       </App>
     </Router>
