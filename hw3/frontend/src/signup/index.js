@@ -26,9 +26,7 @@ class Signup extends Component{
     this.props.signupRequest(values)
   };
 
-
   render(){
-
     const {
       handleSubmit,
       signup: {
@@ -75,7 +73,7 @@ class Signup extends Component{
             </div>
           )}
           {!requesting && !successful && (
-            <Link to="/login">Already a Widgeter? Login Here »</Link>
+            <Link to="/login">Already a User? Login Here »</Link>
           )}
         </div>
       </div>
