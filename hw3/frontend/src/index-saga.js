@@ -1,12 +1,13 @@
 import SignupSaga from './signup/sagas'
 import LoginSaga from './login/sagas'
-import pUpdSaga from './profile/sagas'
+import {pUpdWatcher, pGetWatcher} from './profile/sagas'
 
 
 export default function* IndexSage(){
   yield[
     SignupSaga(),
     LoginSaga(),
-    pUpdSaga()
+    pUpdWatcher(),
+    pGetWatcher()
   ]
 }

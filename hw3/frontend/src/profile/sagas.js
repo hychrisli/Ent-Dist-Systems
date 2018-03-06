@@ -3,16 +3,17 @@ import {handleApiErrors} from '../lib/api-errors'
 import {
   PROFILE_UPDATING,
   PROFILE_UPDATE_ERROR,
-  PROFILE_UPDATE_SUCCESS
+  PROFILE_UPDATE_SUCCESS,
+  PROFILE_GETTING,
+  PROFILE_GET_ERROR,
+  PROFILE_GET_SUCCESS
 } from "./constants";
 
-const pUpdUrl = `${process.env.REACT_APP_API_URL}/users`;
+const profileUrl = `${process.env.REACT_APP_API_URL}/users`;
 
 
 function pUpdApi(email, password, firstName, lastName, aboutMe){
-
-
-  return fetch(pUpdUrl, {
+  return fetch(profileUrl, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -25,8 +26,21 @@ function pUpdApi(email, password, firstName, lastName, aboutMe){
     .catch(error => {throw error})
 }
 
+function pGetApi(username) {
+  return fetch(profileUrl + '/' + username, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+    .then(handleApiErrors)
+    .then(response => response.json())
+    .then(json => json)
+    .catch(error => {throw error})
+}
 
-function* signupFlow(action){
+
+function* pUpdFlow(action){
   try{
     const {email, password, firstName, lastName, aboutMe} = action;
     const response = yield call(pUpdApi, email, password, firstName, lastName, aboutMe);
@@ -36,8 +50,22 @@ function* signupFlow(action){
   }
 }
 
-function* pUpdWatcher() {
-  yield takeLatest(PROFILE_UPDATING, signupFlow)
+function* pGetFlow(action) {
+  try{
+    const {username} = action;
+    const response = yield call(pGetApi, username);
+    yield put({type: PROFILE_GET_SUCCESS, response})
+  } catch(error) {
+    yield put({type: PROFILE_GET_ERROR, error})
+  }
 }
 
-export default pUpdWatcher;
+export function* pUpdWatcher() {
+  yield takeLatest(PROFILE_UPDATING, pUpdFlow)
+}
+
+
+export  function* pGetWatcher() {
+  yield takeLatest(PROFILE_GETTING, pGetFlow)
+}
+

@@ -6,13 +6,14 @@ import PropTypes from 'prop-types'
 import Messages from '../notifications/messages'
 import Errors from '../notifications/errors'
 
-import {profileUpdate} from "./actions";
+import {profileUpdate, profileGet} from "./actions";
 
 class Profile extends Component{
 
   static propTypes = {
     handleSubmit: PropTypes.func,
     profileUpdate: PropTypes.func,
+    profileGet: PropTypes.func,
     profile: PropTypes.shape({
       updating: PropTypes.bool,
       successful: PropTypes.bool,
@@ -24,6 +25,11 @@ class Profile extends Component{
   submit = (values) => {
     this.props.profileUpdate(values)
   };
+
+  componentWillMount() {
+    let username = 'abc';
+    this.props.profileGet(username);
+  }
 
   render() {
     const {
@@ -99,7 +105,7 @@ const mapStateToProps = state => ({
   profile: state.profile,
 });
 
-const connected = connect(mapStateToProps, {profileUpdate})(Profile);
+const connected = connect(mapStateToProps, {profileUpdate, profileGet})(Profile);
 
 const formed = reduxForm({
   form: 'profile',
