@@ -11,6 +11,7 @@ import Signup from './signup';
 import Widgets from './widgets';
 import Profile from './profile';
 import history from './history';
+import Logout from './logout';
 import './index.css';
 
 import IndexReducer from './index-reducer';
@@ -33,7 +34,7 @@ const composeSetup = process.env.NODE_ENV !== 'production' && typeof window === 
 /*eslint-enable */
 
 // redux store
-const store = createStore(
+export const store = createStore(
   IndexReducer,
   composeSetup(applyMiddleware(sagaMiddleware)),
 );
@@ -44,6 +45,7 @@ ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <App>
+        <Logout/>
         <Switch>
           <Route exact path={"/"} render={checkIndexAuthorization(store)}/>
           <Route path={"/login"} component={Login}/>

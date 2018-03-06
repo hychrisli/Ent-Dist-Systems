@@ -3,14 +3,15 @@ import {reducer as form} from 'redux-form'
 import client from './client/reducer'
 import signup from './signup/reducer'
 import login from './login/reducer'
-import {pUpdReducer, pGetReducer} from './profile/reducer'
+import profile from './profile/reducer'
+import account from './profile/account'
 
 const IndexReducer = combineReducers({
   form,
   client,
   signup,
   login,
-  pUpdReducer,
-  pGetReducer
+  profile,
+  account
 });
 export default IndexReducer;

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 
 import Messages from '../notifications/messages'
 import Errors from '../notifications/errors'
+import Logout from '../logout'
 
 import {profileUpdate, profileGet} from "./actions";
 
@@ -18,7 +19,11 @@ class Profile extends Component{
       updating: PropTypes.bool,
       successful: PropTypes.bool,
       messages: PropTypes.array,
-      errors: PropTypes.array,
+      errors: PropTypes.array,}),
+    account: PropTypes.shape({
+      email: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string
     })
   };
 
@@ -26,7 +31,7 @@ class Profile extends Component{
     this.props.profileUpdate(values)
   };
 
-  componentWillMount() {
+  componentDidMount() {
     let username = 'abc';
     this.props.profileGet(username);
   }
@@ -40,12 +45,19 @@ class Profile extends Component{
         messages,
         errors,
       },
+      account: {
+        email,
+        firstName,
+        lastName
+      }
     } = this.props;
 
     return (
       <div className={"profile"}>
         <form className="widget-form" onSubmit={handleSubmit(this.submit)}>
           <h1>Profile</h1>
+
+          <p>{this.props.account.email}</p>
           <label htmlFor={"email"}>Email</label>
           <Field
             name={"email"}
@@ -94,21 +106,24 @@ class Profile extends Component{
             <Errors message={"Failed to update profile due to: "} errors={errors}/>
           )}
           {!updating && !!messages.length && ( <Messages messages={messages} />)}
-          {!updating && successful && (<div>Profile update successful</div>)}
+          {!updating && successful && (<div>Profile update successful </div>)}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = state =>({
   profile: state.profile,
+  account: state.account,
 });
 
 const connected = connect(mapStateToProps, {profileUpdate, profileGet})(Profile);
+
 
 const formed = reduxForm({
   form: 'profile',
 })(connected);
 
 export default formed;
+

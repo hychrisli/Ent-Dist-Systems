@@ -3,7 +3,7 @@ import {
 } from "./constants";
 
 
-const loginRequest = ({username, password})=> ({
+export const loginRequest = ({username, password})=> ({
   type: LOGIN_REQUESTING,
   username,
   password,

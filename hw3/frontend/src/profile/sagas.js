@@ -54,7 +54,8 @@ function* pGetFlow(action) {
   try{
     const {username} = action;
     const response = yield call(pGetApi, username);
-    yield put({type: PROFILE_GET_SUCCESS, response})
+    console.log(response);
+    yield put({type: PROFILE_GET_SUCCESS, response});
   } catch(error) {
     yield put({type: PROFILE_GET_ERROR, error})
   }
