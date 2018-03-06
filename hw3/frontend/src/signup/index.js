@@ -94,7 +94,6 @@ const mapStateToProps = state => ({
   signup: state.signup,
 });
 
-
 const connected = connect(mapStateToProps, {signupRequest})(Signup);
 
 const formed = reduxForm({

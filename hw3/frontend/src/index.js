@@ -9,6 +9,7 @@ import App from './App';
 import Login from './login';
 import Signup from './signup';
 import Widgets from './widgets';
+import Profile from './profile';
 import history from './history';
 import './index.css';
 
@@ -47,7 +48,7 @@ ReactDOM.render(
           <Route exact path={"/"} render={checkIndexAuthorization(store)}/>
           <Route path={"/login"} component={Login}/>
           <Route path={"/signup"} component={Signup}/>
-          <Route path={"/widgets"} render={checkWidgetAuthorization(store)} component={Widgets}/>
+          <Route path={"/profile"} render={checkWidgetAuthorization(store)} component={Profile}/>
         </Switch>
       </App>
     </Router>

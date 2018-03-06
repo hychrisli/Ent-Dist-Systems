@@ -25,7 +25,7 @@ const reducer = (state=initialState, action) => {
       return {
         errors: [],
         messages: [{
-          body: `Successfully created account for ${action.response.email}`,
+          body: `Successfully created account for ${action.response.username}`,
           time: new Date(),
         }],
         requesting: false,
