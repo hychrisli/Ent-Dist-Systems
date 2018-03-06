@@ -12,13 +12,13 @@ import {
 const profileUrl = `${process.env.REACT_APP_API_URL}/users`;
 
 
-function pUpdApi(email, password, firstName, lastName, aboutMe){
-  return fetch(profileUrl, {
+function pUpdApi(username, body){
+  return fetch(profileUrl + '/' + username, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({email, password, firstName, lastName, aboutMe}),
+    body: JSON.stringify(body),
   })
     .then(handleApiErrors)
     .then(response => response.json())
@@ -43,7 +43,10 @@ function pGetApi(username) {
 function* pUpdFlow(action){
   try{
     const {email, password, firstName, lastName, aboutMe} = action;
-    const response = yield call(pUpdApi, email, password, firstName, lastName, aboutMe);
+    const token = JSON.parse(localStorage.getItem('token'));
+    const username = token.username;
+    console.log({username, email});
+    const response = yield call(pUpdApi, username, {email, password, firstName, lastName, aboutMe});
     yield put({type: PROFILE_UPDATE_SUCCESS, response})
   } catch(error){
     yield put({type: PROFILE_UPDATE_ERROR, error})

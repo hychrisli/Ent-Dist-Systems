@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {reduxForm, Field} from 'redux-form'
+import {reduxForm, Field, Password} from 'redux-form'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -10,6 +10,13 @@ import Logout from '../logout'
 import {profileUpdate, profileGet} from "./actions";
 
 class Profile extends Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      username: "",
+    };
+  }
 
   static propTypes = {
     handleSubmit: PropTypes.func,
@@ -31,9 +38,10 @@ class Profile extends Component{
     this.props.profileUpdate(values)
   };
 
-  componentDidMount() {
-    let username = 'abc';
-    this.props.profileGet(username);
+  componentWillMount() {
+    const token = JSON.parse(localStorage.getItem('token'));
+    this.props.profileGet(token.username);
+    this.setState({username: token.username})
   }
 
   render() {
@@ -45,59 +53,51 @@ class Profile extends Component{
         messages,
         errors,
       },
-      account: {
-        email,
-        firstName,
-        lastName
-      }
     } = this.props;
 
     return (
       <div className={"profile"}>
         <form className="widget-form" onSubmit={handleSubmit(this.submit)}>
           <h1>Profile</h1>
-
-          <p>{this.props.account.email}</p>
-          <label htmlFor={"email"}>Email</label>
+          <label htmlFor={'username'}>Username: {this.state.username}</label>
+          <label htmlFor={"email"}>Email: {this.props.account.email}</label>
           <Field
             name={"email"}
             type={"text"}
             id={"email"}
             className={"email"}
-            label={"Email"}
-            component={"input"}/>
+            component={"input"}
+          />
           <label htmlFor={"password"}>Password</label>
           <Field
             name={"password"}
             type={"password"}
             id={"password"}
             className={"password"}
-            label={"Password"}
             component={"input"}
           />
-          <label htmlFor={"FirstName"}>First Name</label>
+          <label htmlFor={"FirstName"}>First Name: {this.props.firstName}</label>
           <Field
             name={"firstName"}
             type={"text"}
             id={"firstName"}
             className={"firstName"}
-            label={"FirstName"}
-            component={"input"}/>
-          <label htmlFor={"LastName"}>Last Name</label>
+            component={"input"}
+          />
+          <label htmlFor={"LastName"}>Last Name: {this.props.lastName}</label>
           <Field
             name={"lastName"}
             type={"text"}
             id={"lastName"}
             className={"lastName"}
-            label={"LastName"}
-            component={"input"}/>
-          <label htmlFor={"AboutMe"}>About Me</label>
+            component={"input"}
+          />
+          <label htmlFor={"AboutMe"}>About Me: {this.props.aboutMe}</label>
           <Field
             name={"aboutMe"}
             type={"text"}
             id={"aboutMe"}
             className={"aboutMe"}
-            label={"AboutMe"}
             component={"input"}/>
           <button type="submit">Update</button>
         </form>
@@ -116,9 +116,11 @@ class Profile extends Component{
 const mapStateToProps = state =>({
   profile: state.profile,
   account: state.account,
+  enableReinitialize: true
 });
 
-const connected = connect(mapStateToProps, {profileUpdate, profileGet})(Profile);
+
+const connected = connect(mapStateToProps, {profileUpdate,profileGet})(Profile);
 
 
 const formed = reduxForm({

@@ -22,7 +22,7 @@ class Logout extends Component {
 
     return (
       <div className={"logout"}>
-        <form className={"widget-form"} onSubmit={handleSubmit(this.submit)}>
+        <form onSubmit={handleSubmit(this.submit)}>
           <button type="submit">Log Out</button>
         </form>
       </div>
