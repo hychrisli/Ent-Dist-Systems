@@ -6,9 +6,9 @@ import {
   SIGNUP_ERROR,
 } from "./constants";
 
-const signupUrl = `${process.env.REACT_APP_API_URL}/api/Clients`
+const signupUrl = `${process.env.REACT_APP_API_URL}/users`;
 
-function signupApi(email, password){
+function signupApi(email, username, password){
 
 
   return fetch(signupUrl, {
@@ -16,7 +16,7 @@ function signupApi(email, password){
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({email, password}),
+    body: JSON.stringify({email, username, password}),
   })
     .then(handleApiErrors)
     .then(response => response.json())
@@ -26,8 +26,8 @@ function signupApi(email, password){
 
 function* signupFlow(action){
   try{
-    const {email, password} = action;
-    const response = yield call(signupApi, email, password);
+    const {email, username, password} = action;
+    const response = yield call(signupApi, email, username,  password);
     yield put({type: SIGNUP_SUCCESS, response})
   } catch(error){
     yield put({type: SIGNUP_ERROR, error})

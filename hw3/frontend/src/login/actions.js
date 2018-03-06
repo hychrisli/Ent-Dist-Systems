@@ -3,9 +3,9 @@ import {
 } from "./constants";
 
 
-const loginRequest = ({email, password})=> ({
+const loginRequest = ({username, password})=> ({
   type: LOGIN_REQUESTING,
-  email,
+  username,
   password,
 });
 

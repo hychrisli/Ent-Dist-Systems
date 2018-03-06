@@ -41,13 +41,13 @@ class Login extends Component {
       <div className={"login"}>
         <form className={"widget-form"} onSubmit={handleSubmit(this.submit)}>
           <h1>Login</h1>
-          <label htmlFor={"email"}>Email</label>
+          <label htmlFor={"username"}>Username</label>
           <Field
-            name={"email"}
+            name={"username"}
             type={"text"}
-            id={"email"}
-            className={"email"}
-            label={"Email"}
+            id={"username"}
+            className={"username"}
+            label={"Username"}
             component={"input"}/>
           <label htmlFor={"password"}>Password</label>
           <Field

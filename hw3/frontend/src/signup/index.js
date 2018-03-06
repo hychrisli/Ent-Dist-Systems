@@ -49,6 +49,14 @@ class Signup extends Component{
             className={"email"}
             label={"Email"}
             component={"input"}/>
+          <label htmlFor={"username"}>Username</label>
+          <Field
+            name={"username"}
+            type={"text"}
+            id={"username"}
+            className={"username"}
+            label={"Username"}
+            component={"input"}/>
           <label htmlFor={"password"}>Password</label>
           <Field
             name={"password"}

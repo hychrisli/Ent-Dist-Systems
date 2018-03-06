@@ -27,16 +27,16 @@ import {
   CLIENT_UNSET
 } from "../client/constants"
 
-const loginUrl = `${process.env.REACT_APP_API_URL}/api/Clients/login`
+const loginUrl = `${process.env.REACT_APP_API_URL}/users/login`
 
 
-function loginApi(email, password){
+function loginApi(username, password){
   return fetch(loginUrl, {
       method: 'POST',
       headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({email, password}),
+    body: JSON.stringify({username, password}),
   })
     .then(handleApiErrors)
     .then(response => response.json())
@@ -50,12 +50,12 @@ function* logout(){
   history.push('/login')
 }
 
-function* loginFlow(email, password){
+function* loginFlow(username, password){
   let token;
 
   try{
-    token = yield call(loginApi, email, password);
-    yield put(setClient(token));
+    token = yield call(loginApi, username, password);
+    yield put(setClient("abc"));
     yield put({type: LOGIN_SUCCESS});
     localStorage.setItem('token', JSON.stringify(token));
     history.push('/widgets')
@@ -74,8 +74,8 @@ function* loginFlow(email, password){
 function* loginWatcher(){
 
   while(true) {
-    const {email, password} = yield take(LOGIN_REQUESTING);
-    const task = yield fork(loginFlow, email, password);
+    const {username, password} = yield take(LOGIN_REQUESTING);
+    const task = yield fork(loginFlow, username, password);
     const action = yield take([CLIENT_UNSET, LOGIN_ERROR]);
     if (action.type === CLIENT_UNSET) yield cancel(task);
     yield call(logout)
