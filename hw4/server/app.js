@@ -11,6 +11,7 @@ var index = require('./routes/index');
 var swagger = require('./swagger');
 var users = require('./controllers/users-ctrl');
 var projs = require('./controllers/projs-ctrl');
+var sess = require('./controllers/sess-ctrl');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.use(cors(corsOptions));
 app.use('/', index);
 app.use('/api/docs', swagger);
 app.use('/api/users', users);
+app.use('/api/sess', sess);
 app.use('/api/projects', projs);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

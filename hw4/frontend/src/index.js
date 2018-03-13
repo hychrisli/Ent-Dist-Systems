@@ -3,9 +3,7 @@ import ReactDOM from 'react-dom';
 import {applyMiddleware, createStore, compose} from 'redux';
 import {Provider} from 'react-redux';
 import createSageMiddleware from 'redux-saga'
-import {Route, Router, Switch, Link} from 'react-router-dom';
-import Cookies from 'js-cookie'
-import {createCookieMiddleware} from 'redux-cookie'
+import {Route, Router, Switch} from 'react-router-dom';
 
 import App from './App';
 import Login from './login';
@@ -21,12 +19,12 @@ import IndexSagas from './index-saga';
 
 import {
   checkIndexAuthorization,
+  checkLoginAuthroization,
   checkWidgetAuthorization,
 } from './lib/check-auth'
 
 //Set up middleware
 const sagaMiddleware = createSageMiddleware();
-const cookieMiddleware = createCookieMiddleware(Cookies);
 
 /*eslint-disable */
 /*To use the redux devtool*/
@@ -38,7 +36,7 @@ const composeSetup = process.env.NODE_ENV !== 'production' && typeof window === 
 // redux store
 export const store = createStore(
   IndexReducer,
-  composeSetup(applyMiddleware(sagaMiddleware,cookieMiddleware)),
+  composeSetup(applyMiddleware(sagaMiddleware)),
 );
 
 sagaMiddleware.run(IndexSagas);
@@ -49,9 +47,9 @@ ReactDOM.render(
       <App>
         <Switch>
           <Route exact path={"/"} render={checkIndexAuthorization(store)}/>
-          <Route path={"/login"} component={Login}/>
+          <Route path={"/login"} render={checkLoginAuthroization(store)}/>
           <Route path={"/signup"} component={Signup}/>
-          <Route path={"/profile"} render={checkWidgetAuthorization(store)} component={Profile}/>
+          <Route path={"/profile"} render={checkWidgetAuthorization(store)} />
         </Switch>
       </App>
     </Router>

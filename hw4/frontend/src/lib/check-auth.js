@@ -1,6 +1,9 @@
 import React from 'react'
 import {setClient} from '../client/actions'
 import {Redirect} from 'react-router-dom'
+import Profile from "../profile";
+import Login from '../login';
+import {Route} from 'react-router-dom';
 
 
 export function checkIndexAuthorization({dispatch}){
@@ -12,18 +15,33 @@ export function checkIndexAuthorization({dispatch}){
   }
 }
 
-export function checkWidgetAuthorization({dispatch, getState}){
+export function checkLoginAuthroization({dispatch, getState}) {
   return ()=>{
     const client = getState().client;
     if ( client && client.token) return <Redirect to={"/profile"}/>;
 
     if(checkAuthorization(dispatch)) return <Redirect to={"/profile"}/>;
 
+    console.log("Load login");
+    return <Route path={"/login"} component={Login}/>;
+  }
+}
+
+
+export function checkWidgetAuthorization({dispatch, getState}){
+  return ()=>{
+    const client = getState().client;
+    if ( client && client.token) return <Route path={"/profile"} component={Profile}/>;
+
+    if(checkAuthorization(dispatch)) return <Route path={"/profile"} component={Profile}/>;
+
+    console.log("back to login");
     return <Redirect to={"/login"}/>;
   }
 }
 
 function checkAuthorization(dispatch){
+
   const storedToken = localStorage.getItem('token');
 
   if ( storedToken ) {
@@ -40,5 +58,5 @@ function checkAuthorization(dispatch){
     return true
   }
 
-  return false
+  return false;
 }

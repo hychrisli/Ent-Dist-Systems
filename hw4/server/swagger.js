@@ -14,6 +14,13 @@ var options = {
     host: 'localhost:5000',
     basePath: '/api',
   },
+  securityDefinitions: {
+    mySession: {
+      type: 'apiKey',
+      name: 'cookie',
+      in: 'header',
+    }
+  },
   apis: [ __dirname + '/controllers/*', __dirname + '/models/*'],
 };
 

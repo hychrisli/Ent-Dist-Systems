@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
  *  get:
  *    description: Retrieve all users
  *    tags:
- *       - users
+ *      - users
  *    produces:
  *      - application/json
  *    responses:
@@ -46,11 +46,6 @@ router.get('/', (req, res) => {
  *          $ref: '#/definitions/User'
  */
 router.get('/:username', function (req, res, next) {
-  console.log(req.mySession);
-  if (req.mySession.username)
-    console.log("User name match: " + req.mySession.username);
-  else
-    req.mySession.username = req.params.username;
   promiseGetResponse(userDao.retrieve(req.params.username), res, 200);
 });
 
@@ -118,16 +113,19 @@ router.post('/login', function (req, res, next) {
   const username = req.body.username;
   console.log(req.body);
   const promise = userDao.retrieve(username);
-  promise.then((val)=>{
+  promise.then((val) => {
     if (val.length > 0) {
       console.log(val);
-      if(bcrypt.compareSync(req.body.password, val[0].password)){
+      if (bcrypt.compareSync(req.body.password, val[0].password)) {
+        req.mySession.username = username;
         return res.send({login: "success", username: username});
       }
       else res.status(400).send({login: "wrong password"});
     }
     else res.status(404).send({login: "no such user"});
-  }).catch((err) => {res.send(err)});
+  }).catch((err) => {
+    res.send(err)
+  });
 });
 
 
@@ -176,12 +174,10 @@ router.post('/login', function (req, res, next) {
  *        description: user created
  */
 router.put('/:username', function (req, res, next) {
- let form = req.body;
+  let form = req.body;
   if (form.password !== undefined)
     form.password = bcrypt.hashSync(form.password, 10);
   promisePostResponse(userDao.update(req.params.username, form), req, res, 200);
 });
-
-
 
 module.exports = router;
