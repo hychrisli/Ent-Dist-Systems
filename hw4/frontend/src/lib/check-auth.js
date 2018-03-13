@@ -4,6 +4,7 @@ import {Redirect} from 'react-router-dom'
 import Profile from "../profile";
 import Login from '../login';
 import {Route} from 'react-router-dom';
+import {handleApiErrors} from "./api-errors";
 
 
 export function checkIndexAuthorization({dispatch}){
@@ -15,12 +16,12 @@ export function checkIndexAuthorization({dispatch}){
   }
 }
 
-export function checkLoginAuthroization({dispatch, getState}) {
+export function checkLoginAuthorization({dispatch,getState}) {
   return ()=>{
     const client = getState().client;
     if ( client && client.token) return <Redirect to={"/profile"}/>;
 
-    if(checkAuthorization(dispatch)) return <Redirect to={"/profile"}/>;
+    if(checkAuthorization(dispatch, getState)) return <Redirect to={"/profile"}/>;
 
     console.log("Load login");
     return <Route path={"/login"} component={Login}/>;
@@ -40,9 +41,10 @@ export function checkWidgetAuthorization({dispatch, getState}){
   }
 }
 
-function checkAuthorization(dispatch){
 
+function checkAuthorization(dispatch){
   const storedToken = localStorage.getItem('token');
+  console.log(document.cookie);
 
   if ( storedToken ) {
     const token = JSON.parse(storedToken);
@@ -58,5 +60,5 @@ function checkAuthorization(dispatch){
     return true
   }
 
-  return false;
+  return false
 }

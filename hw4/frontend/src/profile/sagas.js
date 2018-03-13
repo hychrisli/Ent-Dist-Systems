@@ -8,6 +8,7 @@ import {
   PROFILE_GET_ERROR,
   PROFILE_GET_SUCCESS
 } from "./constants";
+import {unsetClient} from "../client/actions";
 
 const profileUrl = `${process.env.REACT_APP_API_URL}/users`;
 
@@ -28,12 +29,12 @@ function pUpdApi(username, body){
 }
 
 function pGetApi(username) {
-  return fetch(profileUrl + '/' + username, {
+  return fetch(`${process.env.REACT_APP_API_URL}/user`, {
     method: 'GET',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
-    }
+    },
+    credentials: 'include',
   })
     .then(handleApiErrors)
     .then(response => response.json())
@@ -71,6 +72,7 @@ function* pGetFlow(action) {
     console.log(response);
     yield put({type: PROFILE_GET_SUCCESS, response});
   } catch(error) {
+    yield put(unsetClient());
     yield put({type: PROFILE_GET_ERROR, error})
   }
 }

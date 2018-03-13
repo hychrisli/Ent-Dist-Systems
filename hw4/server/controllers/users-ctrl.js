@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userDao = require('../dao/users-dao');
-const {promiseGetResponse, promisePostResponse} = require('./ctrls');
+const {promiseGetResponse, promisePostResponse, checkSession} = require('./ctrls');
 const bcrypt = require('bcrypt');
 
 /**
@@ -46,9 +46,9 @@ router.get('/', (req, res) => {
  *          $ref: '#/definitions/User'
  */
 router.get('/:username', function (req, res, next) {
+  checkSession(req, res);
   promiseGetResponse(userDao.retrieve(req.params.username), res, 200);
 });
-
 
 /**
  * @swagger

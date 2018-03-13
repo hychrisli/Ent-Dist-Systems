@@ -19,7 +19,7 @@ import IndexSagas from './index-saga';
 
 import {
   checkIndexAuthorization,
-  checkLoginAuthroization,
+  checkLoginAuthorization,
   checkWidgetAuthorization,
 } from './lib/check-auth'
 
@@ -47,7 +47,7 @@ ReactDOM.render(
       <App>
         <Switch>
           <Route exact path={"/"} render={checkIndexAuthorization(store)}/>
-          <Route path={"/login"} render={checkLoginAuthroization(store)}/>
+          <Route path={"/login"} render={checkLoginAuthorization(store)}/>
           <Route path={"/signup"} component={Signup}/>
           <Route path={"/profile"} render={checkWidgetAuthorization(store)} />
         </Switch>

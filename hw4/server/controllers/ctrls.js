@@ -24,3 +24,15 @@ function addHeader (res, val){
   res.set('Access-Control-Expose-Headers', 'X-Total-Count');
   return res;
 }
+
+exports.checkSession = (req, res) => {
+  console.log(req.mySession);
+  console.log("session check");
+
+  if (req.mySession.username === undefined) {
+    res = addHeader(res, {valid: false});
+    res.status(401).send({valid: false});
+  }
+
+  return req.mySession.username;
+};

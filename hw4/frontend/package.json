@@ -16,7 +16,8 @@
     "redux": "^3.7.2",
     "redux-cookie": "^0.5.9",
     "redux-form": "^7.2.3",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "xmlhttprequest": "^1.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
