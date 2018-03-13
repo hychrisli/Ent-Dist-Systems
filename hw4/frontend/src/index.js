@@ -4,6 +4,8 @@ import {applyMiddleware, createStore, compose} from 'redux';
 import {Provider} from 'react-redux';
 import createSageMiddleware from 'redux-saga'
 import {Route, Router, Switch, Link} from 'react-router-dom';
+import Cookies from 'js-cookie'
+import {createCookieMiddleware} from 'redux-cookie'
 
 import App from './App';
 import Login from './login';
@@ -24,7 +26,7 @@ import {
 
 //Set up middleware
 const sagaMiddleware = createSageMiddleware();
-
+const cookieMiddleware = createCookieMiddleware(Cookies);
 
 /*eslint-disable */
 /*To use the redux devtool*/
@@ -36,7 +38,7 @@ const composeSetup = process.env.NODE_ENV !== 'production' && typeof window === 
 // redux store
 export const store = createStore(
   IndexReducer,
-  composeSetup(applyMiddleware(sagaMiddleware)),
+  composeSetup(applyMiddleware(sagaMiddleware,cookieMiddleware)),
 );
 
 sagaMiddleware.run(IndexSagas);

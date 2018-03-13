@@ -12,7 +12,7 @@ var options = {
     },
     schemes: ['http'],
     host: 'localhost:5000',
-    basePath: '/api'
+    basePath: '/api',
   },
   apis: [ __dirname + '/controllers/*', __dirname + '/models/*'],
 };

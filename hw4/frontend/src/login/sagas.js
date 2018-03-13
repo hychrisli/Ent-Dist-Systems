@@ -26,43 +26,49 @@ import {
 import {
   CLIENT_UNSET
 } from "../client/constants"
+import {getCookie} from 'redux-cookie';
+import Cookies from 'js-cookie';
 
-const loginUrl = `${process.env.REACT_APP_API_URL}/users/login`
+const loginUrl = `${process.env.REACT_APP_API_URL}/users/login`;
 
 
-function loginApi(username, password){
+function loginApi(username, password) {
   return fetch(loginUrl, {
-      method: 'POST',
-      headers: {
+    method: 'POST',
+    headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify({username, password}),
   })
     .then(handleApiErrors)
-    .then(response => response.json())
+    .then(response => {
+      return response.json()})
     .then(json => json)
-    .catch(error => {throw error})
+    .catch(error => {
+      throw error
+    })
 }
 
-function* logout(){
+function* logout() {
   yield put(unsetClient());
   localStorage.removeItem('token');
   history.push('/login')
 }
 
-function* loginFlow(username, password){
+function* loginFlow(username, password) {
   let token;
 
-  try{
+  try {
     token = yield call(loginApi, username, password);
     yield put(setClient("abc"));
     yield put({type: LOGIN_SUCCESS});
     localStorage.setItem('token', JSON.stringify(token));
     history.push('/profile')
-  } catch(error) {
+  } catch (error) {
     yield put({type: LOGIN_ERROR, error})
   } finally {
-    if ( yield cancelled()) {
+    if (yield cancelled()) {
       history.push('/login')
     }
   }
@@ -71,9 +77,9 @@ function* loginFlow(username, password){
 
 }
 
-function* loginWatcher(){
+function* loginWatcher() {
 
-  while(true) {
+  while (true) {
     const {username, password} = yield take(LOGIN_REQUESTING);
     const task = yield fork(loginFlow, username, password);
     const action = yield take([CLIENT_UNSET, LOGIN_ERROR]);

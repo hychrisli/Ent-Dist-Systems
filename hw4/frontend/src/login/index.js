@@ -23,7 +23,7 @@ class Login extends Component {
   };
 
   submit = (values) => {
-    this.props.loginRequest(values)
+    this.props.loginRequest(values);
   };
 
   render() {

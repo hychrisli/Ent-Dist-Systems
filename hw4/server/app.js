@@ -5,7 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-var session = require('express-session');
+var sessions = require('client-sessions');
 
 var index = require('./routes/index');
 var swagger = require('./swagger');
@@ -25,9 +25,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  secret: 'keyboard cat',
-  cookie: {}
+app.use(sessions({
+  cookieName: 'mySession',
+  secret: 'super secret stuff',
+  duration: 24 * 60 * 60 * 1000,
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    maxAge: 60000
+  }
 }));
 //cors
 const corsOptions = {

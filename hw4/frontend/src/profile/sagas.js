@@ -30,6 +30,7 @@ function pUpdApi(username, body){
 function pGetApi(username) {
   return fetch(profileUrl + '/' + username, {
     method: 'GET',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     }

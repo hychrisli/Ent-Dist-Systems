@@ -46,6 +46,11 @@ router.get('/', (req, res) => {
  *          $ref: '#/definitions/User'
  */
 router.get('/:username', function (req, res, next) {
+  console.log(req.mySession);
+  if (req.mySession.username)
+    console.log("User name match: " + req.mySession.username);
+  else
+    req.mySession.username = req.params.username;
   promiseGetResponse(userDao.retrieve(req.params.username), res, 200);
 });
 
@@ -112,7 +117,6 @@ router.post('/', function (req, res, next) {
 router.post('/login', function (req, res, next) {
   const username = req.body.username;
   console.log(req.body);
-  console.log(req.body.password);
   const promise = userDao.retrieve(username);
   promise.then((val)=>{
     if (val.length > 0) {
@@ -172,8 +176,7 @@ router.post('/login', function (req, res, next) {
  *        description: user created
  */
 router.put('/:username', function (req, res, next) {
-  console.log(req.body);
-  let form = req.body;
+ let form = req.body;
   if (form.password !== undefined)
     form.password = bcrypt.hashSync(form.password, 10);
   promisePostResponse(userDao.update(req.params.username, form), req, res, 200);
