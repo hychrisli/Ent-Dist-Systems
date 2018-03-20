@@ -44,8 +44,9 @@ router.delete('/logout', function (req, res) {
     req.mySession.destroy();
     console.log("session destroyed");
     res.send({status:'destroyed'});
+  } else {
+    res.send({status: 'unchanged'})
   }
-  res.send({status:'unchanged'})
 });
 
 module.exports = router;
